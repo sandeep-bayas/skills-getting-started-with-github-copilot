@@ -153,20 +153,34 @@ footer {
   font-size: 16px;
 }
 
+
 .participants-list {
-  list-style: disc;
-  margin-left: 20px;
-  margin-top: 6px;
+  list-style: none;
+  margin-left: 0;
+  margin-top: 10px;
+  margin-bottom: 10px;
   padding-left: 0;
 }
 
-.participants-list li {
-  display: inline-block;
+.participant-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   background-color: #eaf4ff;
   color: #0a3a66;
   padding: 6px 10px;
   margin: 4px 8px 0 0;
   border-radius: 16px;
   font-size: 14px;
-  list-style: none;
+}
+
+.delete-icon {
+  margin-left: 12px;
+  color: #d32f2f;
+  font-size: 1.1em;
+  transition: color 0.2s;
+  cursor: pointer;
+}
+.delete-icon:hover {
+  color: #b71c1c;
 }

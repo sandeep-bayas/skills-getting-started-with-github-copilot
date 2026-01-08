@@ -46,7 +46,20 @@ document.addEventListener("DOMContentLoaded", () => {
         ul.className = "participants-list";
         activity.participants.forEach((email) => {
           const li = document.createElement("li");
-          li.textContent = email;
+          li.className = "participant-item";
+          // Email text
+          const emailSpan = document.createElement("span");
+          emailSpan.textContent = email;
+          // Delete icon
+          const deleteBtn = document.createElement("span");
+          deleteBtn.className = "delete-icon";
+          deleteBtn.title = "Remove participant";
+          deleteBtn.innerHTML = "&#128465;"; // Trash can emoji
+          deleteBtn.onclick = () => {
+            unregisterParticipant(name, email);
+          };
+          li.appendChild(emailSpan);
+          li.appendChild(deleteBtn);
           ul.appendChild(li);
         });
         participantsSection.appendChild(ul);
@@ -58,6 +71,26 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       card.appendChild(title);
+          // Unregister participant function
+          function unregisterParticipant(activityName, email) {
+            fetch(`/activities/${encodeURIComponent(activityName)}/unregister`, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ email })
+            })
+              .then((res) => {
+                if (!res.ok) throw new Error("Failed to unregister participant");
+                return res.json();
+              })
+              .then((data) => {
+                showMessage(data.message || "Participant removed.", "success");
+                // Reload activities
+                loadActivities();
+              })
+              .catch(() => {
+                showMessage("Error removing participant.", "error");
+              });
+          }
       card.appendChild(desc);
       card.appendChild(schedule);
       card.appendChild(spots);
